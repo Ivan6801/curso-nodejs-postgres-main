@@ -1,14 +1,21 @@
 version: "3.3"
 
 services:
-  wordpress:
-    image: postgres
-    restart: always
-    ports:
-      - 5432
+  postgres:
+    image: postgres:13
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      - POSTGRES_DB=my_store
+      - POSTGRES_USER=john
+      - POSTGRES_PASSWORD=admin123
+    ports:
+      - 5432:5432
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - 5050:80
